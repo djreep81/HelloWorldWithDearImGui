@@ -55,7 +55,18 @@ add_executable(${EXECUTABLE_NAME}
 
         ${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp
         ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
+        fontawesome-webfont.ttf
         )
+
+set(RESOURCE_FILES
+   fontawesome-webfont.ttf
+ )
+
+
+
+ #set_target_properties(${EXECUTABLE_NAME}
+ # RESOURCE "${RESOURCE_FILES}")
+
 
 # Add options for warning
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -82,6 +93,11 @@ target_link_libraries(${EXECUTABLE_NAME}
         PRIVATE
         glfw
         libglew_static
-        $<$<CXX_COMPILER_ID:GNU>:opengl32.a>
+        ##$<$<CXX_COMPILER_ID:GNU>:opengl32.a>
         $<$<CXX_COMPILER_ID:MSVC>:opengl32.lib>
         )
+
+INSTALL(FILES ${RESOURCE_FILES} DESTINATION bin)
+install(TARGETS ${EXECUTABLE_NAME} RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+
+

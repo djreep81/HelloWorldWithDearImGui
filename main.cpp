@@ -5,11 +5,29 @@
 #include "imgui.h"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
+#include "IconsFontAwesome6.h"
 
 static void helloWorld() {
 	ImGui::Begin("My DearImGui Window");
 	ImGui::Text("hello, world");
+        ImGui::Text(ICON_FA_PAINTBRUSH " Paint");
+        ImGui::Button(ICON_FA_MAGNIFYING_GLASS" Search");
 	ImGui::End();
+}
+
+static void setup() {
+
+  ImGuiIO& io = ImGui::GetIO();
+  io.Fonts->AddFontDefault();
+  float baseFontSize = 13.0f; // 13.0f is the size of the default font. Change to the font size you use.
+  float iconFontSize = baseFontSize * 2.0f / 3.0f; // FontAwesome fonts need to have their sizes reduced by 2.0f/3.0f in order to align correctly
+  // merge in icons from Font Awesome
+  static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_16_FA, 0 };
+  ImFontConfig icons_config;
+  icons_config.MergeMode = true;
+  icons_config.PixelSnapH = true;
+  icons_config.GlyphMinAdvanceX = iconFontSize;
+  io.Fonts->AddFontFromFileTTF( "fontawesome-webfont.ttf", iconFontSize, &icons_config, icons_ranges );
 }
 
 int main() {
@@ -48,6 +66,8 @@ int main() {
 	int display_w, display_h;
 	glfwGetFramebufferSize(window, &display_w, &display_h);
 
+        setup();
+
 	while (!glfwWindowShouldClose(window)) {
 		// Poll and handle events (inputs, window resize, etc.)
 		glfwPollEvents();
@@ -56,6 +76,7 @@ int main() {
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
+
 
 		// Run our Dear ImGui application
 		helloWorld();
